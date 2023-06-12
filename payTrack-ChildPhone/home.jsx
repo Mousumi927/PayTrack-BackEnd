@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const Screen = () => {
+const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState('achievements');
 
   const handleTabPress = (tab) => {
@@ -24,6 +24,10 @@ const Screen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.balanceContainer}>
+        <Text style={styles.currentBalance}>Current Balance : 100</Text>
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Ask Money</Text>
@@ -60,6 +64,11 @@ const Screen = () => {
 };
 
 const styles = StyleSheet.create({
+  currentBalance: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -117,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Screen;
+export default HomeScreen;
