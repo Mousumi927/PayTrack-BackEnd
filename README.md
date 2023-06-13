@@ -1,9 +1,9 @@
 Project Name: PayTrack
 
 Problem:
-
 Most banking apps lack features focused on children, such as parental control.
 Children often receive pocket money in cash or as gifts, leading to a lack of awareness about saving habits. Parents find it challenging to explain the importance of saving without proper tools.
+
 Solution:
 PayTrack is an innovative app that addresses these challenges. It consists of two essential components: the Child Phone side and the Parent Phone side.
 
