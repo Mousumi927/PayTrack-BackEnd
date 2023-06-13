@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 const HomeScreen = () => {
   const [activeTab, setActiveTab] = useState('achievements');
@@ -9,18 +9,23 @@ const HomeScreen = () => {
   };
 
   const renderLogo = () => {
-    if (activeTab === 'achievements') {
-      return <Text style={styles.logo}>Achievements Logo</Text>;
-    } else if (activeTab === 'chest') {
-      return (
-        <View style={styles.chestLogoContainer}>
-          <Text style={styles.chestLogo}>Chest Logo</Text>
-          <Text style={styles.amount}>Amount: 560</Text>
-        </View>
-      );
-    }
-    return null;
-  };
+  if (activeTab === 'achievements') {
+    return (
+      <Image
+        source={require('./ChestImage.png')}
+        style={styles.logo}
+      />
+    );
+  } else if (activeTab === 'chest') {
+    return (
+      <View style={styles.chestLogoContainer}>
+        <Text style={styles.chestLogo}>Chest Logo</Text>
+        <Text style={styles.amount}>Amount: 560</Text>
+      </View>
+    );
+  }
+  return null;
+};
 
   return (
     <View style={styles.container}>
