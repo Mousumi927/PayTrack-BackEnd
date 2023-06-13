@@ -8,24 +8,25 @@ const HomeScreen = () => {
     setActiveTab(tab);
   };
 
-  const renderLogo = () => {
-  if (activeTab === 'achievements') {
-    return (
-      <Image
-        source={require('./ChestImage.png')}
-        style={styles.logo}
-      />
-    );
-  } else if (activeTab === 'chest') {
+ const renderLogo = () => {
+  if (activeTab === 'chest') {
     return (
       <View style={styles.chestLogoContainer}>
-        <Text style={styles.chestLogo}>Chest Logo</Text>
+        <Image
+          source={require('./ChestImage.png')}
+          style={styles.chestLogoImage}
+        />
         <Text style={styles.amount}>Amount: 560</Text>
       </View>
+    );
+  } else if (activeTab === 'achievements') {
+    return (
+      <Text style={styles.logo}>Achievements Logo</Text>
     );
   }
   return null;
 };
+
 
   return (
     <View style={styles.container}>
