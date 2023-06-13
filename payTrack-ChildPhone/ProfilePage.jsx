@@ -18,7 +18,13 @@ const ProfileScreen = () => {
           style={styles.profileImage}
         />
       </View>
-
+      <Text style={styles.label}>Name:</Text>
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="Enter your full name"
+      />
       <Text style={styles.label}>DoB:</Text>
       <TextInput
         style={styles.input}
