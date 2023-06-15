@@ -1,26 +1,35 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './Firebase.Config';
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    if (username === 'child1' && password === 'password') {
-     
-      Alert.alert('Login successful');
-    } else {
-      
-      Alert.alert('Invalid username or password');
-    }
-  };
+ const handleLogin = async () => {
+  await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      Alert.alert("Login Successful!");
+      //navigation.navigate("Tabs");
+
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      Alert.alert(errorMessage);
+    });
+};
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 20 }}>
       <TextInput
               placeholder="Username"
-              value={username}
-              onChangeText={(text) => setUsername(text)}
+              value={email}
+              onChangeText={(text) => setEmail(text)}
               style={{
                   borderWidth: 1,
                   borderColor: '#ccc',
