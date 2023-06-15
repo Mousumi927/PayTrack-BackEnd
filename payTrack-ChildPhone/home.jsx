@@ -13,7 +13,7 @@ const HomeScreen = () => {
     return (
       <View style={styles.chestLogoContainer}>
         <Image
-          source={require('./ChestImage.png')}
+          source={require('./images/chest-image.png')}
           style={styles.chestLogoImage}
         />
         <Text style={styles.amount}>Amount: 560</Text>
