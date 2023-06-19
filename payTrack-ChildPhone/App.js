@@ -1,13 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import ProfileScreen from "./ProfilePage.jsx";
+import HomeScreen from "./home.jsx";
+import LoginScreen from "./login.jsx";
 
 const App = () => {
-  return (
-    <View style={{ flex: 1 }}>
-      <ProfileScreen />
-    </View>
-  );
+  const App = () => {
+    return (
+      <View style={{ flex: 1 }}>
+        <ProfileScreen />
+      </View>
+    );
+  };
 };
 
 export default App;
