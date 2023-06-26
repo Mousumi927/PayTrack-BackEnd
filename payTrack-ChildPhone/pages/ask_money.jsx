@@ -1,135 +1,165 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, View, TouchableOpacity, Text, Image } from "react-native";
+import { Center } from "@builderx/utils";
+import MaterialIconTextButtonsFooter from "../components/MaterialIconTextButtonsFooter";
+import MaterialButtonShare from "../components/MaterialButtonShare";
 
-const HomeScreen = () => {
-  const [activeTab, setActiveTab] = useState('achievements');
-
-  const handleTabPress = (tab) => {
-    setActiveTab(tab);
-  };
-
- const renderLogo = () => {
-  if (activeTab === 'chest') {
-    return (
-      <View style={styles.chestLogoContainer}>
-        <Image
-          source={require('./images/chest-image.png')}
-          style={styles.chestLogoImage}
-        />
-        <Text style={styles.amount}>Amount: 560</Text>
-      </View>
-    );
-  } else if (activeTab === 'achievements') {
-    return (
-      <Text style={styles.logo}>Achievements Logo</Text>
-    );
-  }
-  return null;
-};
-
-
+function Untitled(props) {
   return (
     <View style={styles.container}>
-      <View style={styles.balanceContainer}>
-        <Text style={styles.currentBalance}>Current Balance : 100</Text>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Ask Money</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Pay</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>History</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.tabContainer}>
+      <Center horizontal>
         <TouchableOpacity
-          style={[
-            styles.tab,
-            activeTab === 'achievements' && styles.activeTab,
-          ]}
-          onPress={() => handleTabPress('achievements')}
-        >
-          <Text style={styles.tabText}>Achievements</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === 'chest' && styles.activeTab]}
-          onPress={() => handleTabPress('chest')}
-        >
-          <Text style={styles.tabText}>Chest</Text>
-        </TouchableOpacity>
-      </View>
-
-      {renderLogo()}
+          onPress={() => props.navigation.goBack()}
+          style={styles.logo}
+        ></TouchableOpacity>
+      </Center>
+      <MaterialIconTextButtonsFooter
+        icon1Name="timer"
+        btn1Text="Recent"
+        activeIconName="heart"
+        activeContent="Favorites"
+        icon2Name="map-marker-radius"
+        icon1="home-outline"
+        btn1Text="HOME"
+        activeIcon="bell"
+        activeContent="Notifications"
+        icon2="account-circle"
+        style={styles.materialIconTextButtonsFooter}
+      ></MaterialIconTextButtonsFooter>
+      <Text style={styles.requestMoney}>Request Money</Text>
+      <Image
+        source={require("../assets/images/HowIMineForFish.jpeg")}
+        resizeMode="contain"
+        style={styles.parent1}
+      ></Image>
+      <Image
+        source={require("../assets/images/HowIMineForFish.jpeg")}
+        resizeMode="contain"
+        style={styles.parent2}
+      ></Image>
+      <TouchableOpacity style={styles.enterAmount}></TouchableOpacity>
+      <Center horizontal>
+        <TouchableOpacity style={styles.sendRequest}></TouchableOpacity>
+      </Center>
+      <TouchableOpacity style={styles.button}>
+        <MaterialButtonShare style={styles.$5}></MaterialButtonShare>
+        <MaterialButtonShare style={styles.$10}></MaterialButtonShare>
+        <MaterialButtonShare style={styles.$15}></MaterialButtonShare>
+        <MaterialButtonShare style={styles.$20}></MaterialButtonShare>
+      </TouchableOpacity>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  currentBalance: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  button: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'blue',
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  tab: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'lightpurple',
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  activeTab: {
-    backgroundColor: 'purple',
-  },
-  tabText: {
-    color: 'white',
-    fontSize: 16,
+    backgroundColor: "rgba(15,15, 15,0)",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
   logo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    width: 120,
+    height: 120,
+    backgroundColor: "#E6E6E6",
+    padding: 10,
+    margin: 70,
+    top: 0,
+    overflow: "visible"
   },
-  chestLogoContainer: {
-    alignItems: 'center',
+  materialIconTextButtonsFooter: {
+    height: 63,
+    width: 375,
+    position: "absolute",
+    left: 20,
+    top: 805,
+    borderRadius: 100,
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOffset: {
+      width: 3,
+      height: 3
+    },
+    elevation: 5,
+    shadowOpacity: 0.01,
+    shadowRadius: 0,
+    backgroundColor: "rgba(15,15, 15,0.2)"
   },
-  chestLogo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  requestMoney: {
+    top: 230,
+    left: 70,
+    position: "absolute",
+    fontFamily: "roboto-700",
+    color: "#121212",
+    fontSize: 40,
+    textAlign: "center"
   },
-  amount: {
-    fontSize: 16,
+  parent1: {
+    top: 308,
+    left: 49,
+    width: 130,
+    height: 126,
+    position: "absolute",
+    borderRadius: 100,
+    backgroundColor: "rgba(0,0,0,1)"
   },
+  parent2: {
+    top: 308,
+    left: 232,
+    width: 130,
+    height: 126,
+    position: "absolute",
+    borderRadius: 100,
+    backgroundColor: "rgba(15,15, 15,1)"
+  },
+  enterAmount: {
+    top: 477,
+    width: 194,
+    height: 64,
+    position: "absolute",
+    backgroundColor: "#E6E6E6",
+    borderRadius: 20,
+    left: 110
+  },
+  sendRequest: {
+    top: 705,
+    width: 194,
+    height: 64,
+    position: "absolute",
+    backgroundColor: "#E6E6E6",
+    borderRadius: 20
+  },
+  button: {
+    top: 583,
+    width: 360,
+    height: 82,
+    position: "absolute",
+    flexDirection: "row",
+    left: 29,
+    flexWrap: "nowrap",
+    justifyContent: "space-around",
+    backgroundColor: "rgba(15,15, 15,0)",
+    alignItems: "center"
+  },
+  $5: {
+    height: 56,
+    width: 56,
+    margin: 10
+  },
+  $10: {
+    height: 56,
+    width: 56,
+    margin: 10
+  },
+  $15: {
+    height: 56,
+    width: 56,
+    margin: 10
+  },
+  $20: {
+    height: 56,
+    width: 56,
+    margin: 10
+  }
 });
 
-export default HomeScreen;
+export default RequestMoneyScreen;
