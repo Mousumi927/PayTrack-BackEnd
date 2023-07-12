@@ -3,7 +3,7 @@ import { View, TextInput, Button, Alert } from 'react-native';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/Firebase.Config';
 
-const LoginScreen = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,7 +13,7 @@ const LoginScreen = () => {
       // Signed in
       const user = userCredential.user;
       Alert.alert("Login Successful!");
-      //navigation.navigate("Tabs");
+      navigation.navigate("Home");
 
       // ...
     })
@@ -54,4 +54,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default Login;

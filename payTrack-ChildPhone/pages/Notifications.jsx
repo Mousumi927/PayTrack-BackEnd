@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const Ask_money = () => {
+const Notifications = () => {
   return (
     <View>
       <Text>Notifications</Text>
@@ -9,6 +9,6 @@ const Ask_money = () => {
   )
 }
 
-export default Ask_money
+export default Notifications
 
 const styles = StyleSheet.create({})

@@ -1,33 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const Home = () => {
-  const [activeTab, setActiveTab] = useState('achievements');
+const HomeScreen = () => {
+  const [activeTab, setActiveTab] = useState('Achievements');
+  const Tabs = ["Achievements", "Chest"]
+  const [clickId, setClickId] = useState(0);
 
-  const handleTabPress = (tab) => {
-    setActiveTab(tab);
+  const handleTabPress = (tab, index) => {
+    setClickId(index);
+    
+
   };
-
- const renderLogo = () => {
-  if (activeTab === 'chest') {
-    return (
-      <View style={styles.chestLogoContainer}>
-        <Image
-          source={require('../images/chest-image.png')}
-          style={styles.chestLogoImage}
-        />
-        <Text style={styles.amount}>Amount: 560</Text>
-      </View>
-    );
-  } else if (activeTab === 'achievements') {
-    return (
-      <Text style={styles.logo}>Achievements Logo</Text>
-    );
-  }
-  return null;
-};
-
-
   return (
     <View style={styles.container}>
       <View style={styles.balanceContainer}>
@@ -47,24 +30,30 @@ const Home = () => {
       </View>
 
       <View style={styles.tabContainer}>
-        <TouchableOpacity
-          style={[
-            styles.tab,
-            activeTab === 'achievements' && styles.activeTab,
-          ]}
-          onPress={() => handleTabPress('achievements')}
-        >
-          <Text style={styles.tabText}>Achievements</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === 'chest' && styles.activeTab]}
-          onPress={() => handleTabPress('chest')}
-        >
-          <Text style={styles.tabText}>Chest</Text>
-        </TouchableOpacity>
-      </View>
+       
+        {Tabs.map((tab, index)=>{
 
-      {renderLogo()}
+          return(
+            <TouchableOpacity key={index} style={index === clickId ? styles.activeTab : styles.tab} onPress={(item)=>{handleTabPress(item, index)}}><Text style={styles.tabText}>{tab}</Text></TouchableOpacity>
+          )
+
+        })}
+      </View>
+<View>{
+(clickId === 1)? 
+      
+        <View style={styles.chestLogoContainer}>
+          <Image
+            source={require('./images/chest-image.png')}
+            style={styles.chestLogo}
+          />
+          <Text style={styles.amount}>Amount: 560</Text>
+        </View>:
+      <Text style={styles.logo}>Achievements Logo</Text>
+      
+    }
+</View>
+      
     </View>
   );
 };
@@ -76,10 +65,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   container: {
-    flex: 1,
+    display:"flex",
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 20,
+   marginTop: 100
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -99,20 +88,30 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     marginBottom: 20,
+    width: 300
   },
   tab: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: 'lightpurple',
+    // paddingHorizontal: 20,
+    // paddingVertical: 10,
+    backgroundColor: 'grey',
     borderRadius: 5,
-    marginRight: 10,
+    width:150,
+    height:55,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   activeTab: {
-    backgroundColor: 'purple',
+    backgroundColor: 'blue',
+    width:150,
+    height:55,
+    alignItems: 'center',
+    justifyContent: 'center',
+
   },
   tabText: {
     color: 'white',
     fontSize: 16,
+    textAlign:"center",
   },
   logo: {
     fontSize: 24,
@@ -120,16 +119,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   chestLogoContainer: {
-    alignItems: 'center',
+   
   },
   chestLogo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    marginTop:20,
+    width:200,
+    height:200
   },
   amount: {
     fontSize: 16,
   },
 });
 
-export default Home;
+export default HomeScreen;
