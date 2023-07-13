@@ -16,40 +16,24 @@ import History from "./pages/History";
 import Ask_money from "./pages/Ask_money";
 import Pay from "./pages/Pay";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
-const { Navigator, Screen } = createNativeStackNavigator();
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 export default function App() {
   user = auth.currentUser;
   return (
     <ContextProvider>
       <NavigationContainer>
-        <Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName="Login"
-        >
-          <Screen name="Login" component={Login} />
-          {/* <Screen name="Tabs" component={Tabs} /> */}
-          <Screen name="Home" component={Home} />
-          <Screen name="Notifications" component={Notifications} />
-          <Screen name="Profile" component={Profile} />
-
-          {/* <Screen name="Ask_money" component={Ask_money} />
-          <Screen name="Pay" component={Pay} />
-          <Screen name="History" component={History} /> */}
-
-          {/* {user ? <Tabs/>: <Login/>} */}
-        </Navigator>
+        <Tabs />
       </NavigationContainer>
     </ContextProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+// });
