@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import History from "./pages/History";
-import Ask_money from "./pages/Ask_money";
+import Request from "./pages/Request";
 import Pay from "./pages/Pay";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";

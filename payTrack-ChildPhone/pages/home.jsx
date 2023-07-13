@@ -36,7 +36,7 @@ const Home = () => {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Ask Money</Text>
+          <Text style={styles.buttonText}>Request</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Pay</Text>
