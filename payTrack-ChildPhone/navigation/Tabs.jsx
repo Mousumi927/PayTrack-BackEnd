@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../pages/Home';
 import Notification from '../pages/Notifications';
-import History from '../pages/History';
+import Profile from '../pages/Profile';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -38,11 +38,11 @@ const Tabs = () => {
         />
 
         <Tab.Screen
-          name="History"
-          component={History}
+          name="Profile"
+          component={Profile}
           options={{
             tabBarIcon: ({ color }) => (
-              <Icon name="history" size={25} color={color} />
+              <Icon name="Profile" size={25} color={color} />
             ),
           }}
         />
