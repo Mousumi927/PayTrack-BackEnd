@@ -1,7 +1,28 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { UserContext } from "../context/UserContext";
+import { doc,  setDoc } from "firebase/firestore";
+import { db } from '../config/Firebase.Config';
 
 const Request = () => {
+    const { user } = useContext(UserContext);
+  const [amount, setAmount] = useState('');
+  
+  const handleRequest = async () => {
+    try {
+      const dateTime = new Date().toISOString();
+      const userId = user.user.uid;
+      setDoc(doc(db, "requests", `${userId}_${dateTime}`), {
+        userId, 
+        amount: parseInt(amount, 10),
+        dateTime,
+        isSeen: false
+      });
+    } catch (error) {
+      console.log("Error while requesting " + error);
+    }
+
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Request Money</Text>
@@ -21,6 +42,8 @@ const Request = () => {
         style={styles.input}
         placeholder="Enter the amount"
         placeholderTextColor="#888"
+        value={amount}
+        onChangeText={setAmount}
       />
 
       <View style={styles.boxesContainer}>
@@ -38,7 +61,7 @@ const Request = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleRequest}>
         <Text style={styles.buttonText}>Request</Text>
       </TouchableOpacity>
     </View>
