@@ -1,26 +1,38 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { doc,  setDoc } from "firebase/firestore";
+import { doc,  setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.Config';
 import { UserContext } from "../context/UserContext";
 
 const Pay = () => {
+  const { user } = useContext(UserContext);
   const userContext = useContext(UserContext);
   const [amount, setAmount] = useState('');
 
-  const handlePay = () => {
-    //  payment logic here
-    const dateTime = new Date().toISOString();
-    const userId = userContext.user.user.uid;
-    setDoc(doc(db, "transactions", `${userId}_${dateTime}`), {
-      userId, 
-      amount: 10, // change to amount instead of 10
-      type: "debit",
-      dateTime,
-      place: "Wallmart"
-    });
-    
-    console.log(`Payment of $${amount} processed`);
+  const handlePay =async () => {
+    const amt = 10; // remove it when css issue is fixed
+
+    let account = {};
+     const q =  query(collection(db, "children"), where("uid", "==", user.user.uid));
+     const querySnapshot = await getDocs(q);
+     querySnapshot.forEach((doc) => {
+      account = doc.data();
+     });
+    if (account?.chq && parseInt(account.chq) >= amt) {
+      const dateTime = new Date().toISOString();
+      const userId = userContext.user.user.uid;
+      setDoc(doc(db, "transactions", `${userId}_${dateTime}`), {
+        userId, 
+        amount: amt, // change to amount instead of 10
+        type: "debit",
+        dateTime,
+        place: "Wallmart"
+      });
+      account.chq = (parseInt(account.chq) - amt).toString();
+      setDoc(doc(db, "children", account.uid),account);
+    } else {
+      Alert.alert("Not sufficient balance for this transaction.");
+    }
   };
 
   return (

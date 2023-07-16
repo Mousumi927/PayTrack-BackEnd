@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { collection, query, where, getDocs, doc } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.Config';
-import { auth } from "firebase/auth"
 import { UserContext } from '../context/UserContext';
+import { useNavigationState } from '@react-navigation/native';
 
 const Home = ({ navigation }) => {
+  const navigationState = useNavigationState(state => state);
   const { user, setUser } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState('recentTransactions');
+  const [currentBalance, setCurrentBalance] = useState(0);
   const [recentTransactions, setRecentTransactions] = useState([]);
 
   const handleTabPress = (tab) => {
@@ -55,6 +57,16 @@ const Home = ({ navigation }) => {
     );
   };
 
+  const fetchCurrentBalance =async () => {
+    let account = {};
+    const q =  query(collection(db, "children"), where("uid", "==", user.user.uid));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      account = doc.data();
+    });
+    setCurrentBalance(account.chq);
+  }
+
   const fetchRecentTransaction = () => {
     const q = query(collection(db, "transactions"), where("userId", "==", user.user.uid));
     getDocs(q)
@@ -72,12 +84,13 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     fetchRecentTransaction();
-  }, []);
+    fetchCurrentBalance();
+  }, [navigationState, recentTransactions, currentBalance]);
 
   return (
     <View style={styles.container}>
       <View style={styles.balanceContainer}>
-        <Text style={styles.currentBalance}>Current Balance: $100</Text>
+        <Text style={styles.currentBalance}>Current Balance:{ currentBalance }</Text>
       </View>
 
       <View style={styles.buttonContainer}>
