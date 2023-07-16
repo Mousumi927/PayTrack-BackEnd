@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { doc,  setDoc } from "firebase/firestore";
+import { db } from '../config/Firebase.Config';
+import { UserContext } from "../context/UserContext";
 
 const Pay = () => {
+  const userContext = useContext(UserContext);
   const [amount, setAmount] = useState('');
 
   const handlePay = () => {
     //  payment logic here
+    const dateTime = new Date().toISOString();
+    const userId = userContext.user.user.uid;
+    setDoc(doc(db, "transactions", `${userId}_${dateTime}`), {
+      userId, 
+      amount: 10, // change to amount instead of 10
+      type: "debit",
+      dateTime,
+      place: "Wallmart"
+    });
+    
     console.log(`Payment of $${amount} processed`);
   };
 

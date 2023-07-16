@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { collection, query, where, getDocs, doc } from "firebase/firestore";
+import { db } from '../config/Firebase.Config';
+import { auth } from "firebase/auth"
+import { UserContext } from '../context/UserContext';
 
-const Home = ({navigation}) => {
+const Home = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState('recentTransactions');
+  const [recentTransactions, setRecentTransactions] = useState([]);
 
   const handleTabPress = (tab) => {
     setActiveTab(tab);
+  };
+  const handleLogout = async () => {
+    try {
+      setUser(null);
+      navigation.navigate("Login");
+    } catch (error) {
+      alert("Error " + error);
+    }
   };
 
   const renderContent = () => {
@@ -18,17 +32,13 @@ const Home = ({navigation}) => {
               <Text style={styles.tableHeader}>Place</Text>
               <Text style={styles.tableHeader}>Amount</Text>
             </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableCell}>Jul 1, 2023</Text>
-              <Text style={styles.tableCell}>Store 1</Text>
-              <Text style={styles.tableCell}>$20</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableCell}>Jul 2, 2023</Text>
-              <Text style={styles.tableCell}>Store 2</Text>
-              <Text style={styles.tableCell}>$30</Text>
-            </View>
-            {/* Add more transaction rows */}
+            {recentTransactions.map((item, index) => (
+              <View style={styles.tableRow} key={item.userId + item.dateTime}>
+                  <Text style={styles.tableCell}>{ new Date(item.dateTime).toISOString().split('T')[0] }</Text>
+                <Text style={styles.tableCell}>{ item.place }</Text>
+                <Text style={styles.tableCell}>{ item.amount }</Text>
+              </View>
+            ))}
           </View>
         </View>
       );
@@ -44,6 +54,25 @@ const Home = ({navigation}) => {
       </View>
     );
   };
+
+  const fetchRecentTransaction = () => {
+    const q = query(collection(db, "transactions"), where("userId", "==", user.user.uid));
+    getDocs(q)
+      .then((querySnapshot) => {
+        const transations = [];
+        querySnapshot.forEach((doc) => {
+          transations.push(doc.data());
+        });
+        setRecentTransactions(transations);
+      })
+      .catch(error => {
+        Alert.alert('Error fetching data from Firestore:', error);
+      });
+  }
+
+  useEffect(() => {
+    fetchRecentTransaction();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -62,6 +91,9 @@ const Home = ({navigation}) => {
 
         <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('History')}>
           <Text style={styles.buttonText}>History</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={()=>handleLogout()}>
+          <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
 

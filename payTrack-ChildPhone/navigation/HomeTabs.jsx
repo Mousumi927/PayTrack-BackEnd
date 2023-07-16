@@ -15,6 +15,7 @@ const Stack = createNativeStackNavigator();
         <Stack.Screen name="Request" component={Request} />
         <Stack.Screen name="Pay" component={Pay} />
         <Stack.Screen name="History" component={History} />
+        
       </Stack.Navigator>
   )
 }

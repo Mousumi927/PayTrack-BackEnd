@@ -1,31 +1,25 @@
-import { useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { auth } from "./config/Firebase.Config";
-import Constants from "expo-constants";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import ContextProvider from "./context/ContextProvider";
-import { useContext } from "react";
-import { appContext } from "./context/ContextProvider";
-import Tabs from "./navigation/Tabs";
 import Login from "./components/Login";
-import Home from "./pages/Home";
-import Notifications from "./pages/Notifications";
-import Profile from "./pages/Profile";
-import History from "./pages/History";
-import Request from "./pages/Request";
-import Pay from "./pages/Pay";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { UserProvider, UserContext } from "./context/UserContext";
+import { Alert } from "react-native";
+import Tabs from "./navigation/Tabs";
 
+const Stack = createNativeStackNavigator();
 export default function App() {
-  user = auth.currentUser;
+  const userContext = useContext(UserContext);
   return (
-    <ContextProvider>
+    <UserProvider>
       <NavigationContainer>
-        <Tabs />
+        <Stack.Navigator
+          initialRouteName={userContext?.user ? "Home" : "Login"}
+        >
+          <Stack.Screen name="Home">{() => <Tabs />}</Stack.Screen>
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
       </NavigationContainer>
-    </ContextProvider>
+    </UserProvider>
   );
 }
 

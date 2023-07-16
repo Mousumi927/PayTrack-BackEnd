@@ -1,27 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/Firebase.Config';
+import { UserContext } from "../context/UserContext";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  const { setUser } = useContext(UserContext);
 
- const handleLogin = async () => {
-  await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      Alert.alert("Login Successful!");
-      navigation.navigate("Home");
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          setUser(userCredential);
+          navigation.navigate("Home");
 
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      Alert.alert(errorMessage);
-    });
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          Alert.alert(errorMessage);
+        });
+    }
+    catch (error) {
+      Alert.alert("Error while loggin in " + error)
+    }
 };
 
   return (
