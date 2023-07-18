@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert ,KeyboardAvoidingView} from 'react-native';
 import { doc,  setDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.Config';
 import { UserContext } from "../context/UserContext";
@@ -36,9 +37,10 @@ const Pay = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={{height:"100%"}}>
+    <View style={styles.container} >
+     
       <View style={styles.scanBox} />
-
       <Text style={styles.amountText}>Amount</Text>
 
       <TextInput
@@ -47,22 +49,22 @@ const Pay = () => {
         placeholderTextColor="#888"
         value={amount}
         onChangeText={setAmount}
-        keyboardType="numeric"
       />
 
       <TouchableOpacity style={styles.payButton} onPress={handlePay}>
         <Text style={styles.payButtonText}>Pay</Text>
       </TouchableOpacity>
     </View>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
+    height:"100%",
   },
   scanBox: {
     width: 200,
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     marginBottom: 16,
+    marginTop:100,
   },
   amountText: {
     fontSize: 20,
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    width: '100%',
+    width: '80%',
     height: 40,
     borderWidth: 1,
     borderColor: '#888',
