@@ -1,14 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import React, { useContext, useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Alert,
+} from "react-native";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from '../config/Firebase.Config';
-import { UserContext } from '../context/UserContext';
-import { useNavigationState } from '@react-navigation/native';
+import { db } from "../config/Firebase.Config";
+import { UserContext } from "../context/UserContext";
+import { useNavigationState } from "@react-navigation/native";
 
 const Home = ({ navigation }) => {
-  const navigationState = useNavigationState(state => state);
+  const navigationState = useNavigationState((state) => state);
   const { user, setUser } = useContext(UserContext);
-  const [activeTab, setActiveTab] = useState('recentTransactions');
+  const [activeTab, setActiveTab] = useState("recentTransactions");
   const [currentBalance, setCurrentBalance] = useState(0);
   const [recentTransactions, setRecentTransactions] = useState([]);
 
@@ -25,7 +32,7 @@ const Home = ({ navigation }) => {
   };
 
   const renderContent = () => {
-    if (activeTab === 'recentTransactions') {
+    if (activeTab === "recentTransactions") {
       return (
         <View style={styles.recentTransactionsContainer}>
           <View style={styles.transactionTable}>
@@ -36,9 +43,11 @@ const Home = ({ navigation }) => {
             </View>
             {recentTransactions.map((item, index) => (
               <View style={styles.tableRow} key={item.userId + item.dateTime}>
-                  <Text style={styles.tableCell}>{ new Date(item.dateTime).toISOString().split('T')[0] }</Text>
-                <Text style={styles.tableCell}>{ item.place }</Text>
-                <Text style={styles.tableCell}>{ item.amount }</Text>
+                <Text style={styles.tableCell}>
+                  {new Date(item.dateTime).toISOString().split("T")[0]}
+                </Text>
+                <Text style={styles.tableCell}>{item.place}</Text>
+                <Text style={styles.tableCell}>{item.amount}</Text>
               </View>
             ))}
           </View>
@@ -49,7 +58,7 @@ const Home = ({ navigation }) => {
     return (
       <View style={styles.chestLogoContainer}>
         <Image
-          source={require('../images/chest-image.png')}
+          source={require("../images/chest-image.png")}
           style={styles.chestLogoImage}
         />
         <Text style={styles.amount}>Amount: 560</Text>
@@ -57,18 +66,24 @@ const Home = ({ navigation }) => {
     );
   };
 
-  const fetchCurrentBalance =async () => {
+  const fetchCurrentBalance = async () => {
     let account = {};
-    const q =  query(collection(db, "children"), where("uid", "==", user.user.uid));
+    const q = query(
+      collection(db, "children"),
+      where("uid", "==", user.user.uid)
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       account = doc.data();
     });
     setCurrentBalance(account.chq);
-  }
+  };
 
   const fetchRecentTransaction = () => {
-    const q = query(collection(db, "transactions"), where("userId", "==", user.user.uid));
+    const q = query(
+      collection(db, "transactions"),
+      where("userId", "==", user.user.uid)
+    );
     getDocs(q)
       .then((querySnapshot) => {
         const transations = [];
@@ -77,10 +92,10 @@ const Home = ({ navigation }) => {
         });
         setRecentTransactions(transations);
       })
-      .catch(error => {
-        Alert.alert('Error fetching data from Firestore:', error);
+      .catch((error) => {
+        Alert.alert("Error fetching data from Firestore:", error);
       });
-  }
+  };
 
   useEffect(() => {
     fetchRecentTransaction();
@@ -90,22 +105,33 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.balanceContainer}>
-        <Text style={styles.currentBalance}>Current Balance:{ currentBalance }</Text>
+        <Text style={styles.currentBalance}>
+          Current Balance:{currentBalance}
+        </Text>
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Request')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Request")}
+        >
           <Text style={styles.buttonText}>Request</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Pay')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Pay")}
+        >
           <Text style={styles.buttonText}>Pay</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('History')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("History")}
+        >
           <Text style={styles.buttonText}>History</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={()=>handleLogout()}>
+        <TouchableOpacity style={styles.button} onPress={() => handleLogout()}>
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -114,15 +140,15 @@ const Home = ({ navigation }) => {
         <TouchableOpacity
           style={[
             styles.tab,
-            activeTab === 'recentTransactions' && styles.activeTab,
+            activeTab === "recentTransactions" && styles.activeTab,
           ]}
-          onPress={() => handleTabPress('recentTransactions')}
+          onPress={() => handleTabPress("recentTransactions")}
         >
           <Text style={styles.tabText}>Recent Transactions</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tab, activeTab === 'chest' && styles.activeTab]}
-          onPress={() => handleTabPress('chest')}
+          style={[styles.tab, activeTab === "chest" && styles.activeTab]}
+          onPress={() => handleTabPress("chest")}
         >
           <Text style={styles.tabText}>Chest</Text>
         </TouchableOpacity>
@@ -136,8 +162,8 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 20,
   },
   balanceContainer: {
@@ -145,65 +171,72 @@ const styles = StyleSheet.create({
   },
   currentBalance: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
   },
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     borderRadius: 5,
     marginRight: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   tabContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
+  },
+  activeTab: {
+    backgroundColor: "purple",
+  },
+  inActiveTab: {
+    backgroundColor: "lightpurple",
   },
   tab: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: 'lightpurple',
     borderRadius: 5,
     marginRight: 10,
   },
-  activeTab: {
-    backgroundColor: 'purple',
-  },
   tabText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   recentTransactionsContainer: {
-    alignItems: 'center',
+    alignItems: "center",
+    width: "100%",
   },
   transactionTable: {
     borderWidth: 1,
-    borderColor: '#888',
+    borderColor: "#888",
     borderRadius: 5,
     marginTop: 10,
+    width: "100%",
   },
   tableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     paddingVertical: 8,
     paddingHorizontal: 20, // Increase the paddingHorizontal value for more spacing
   },
   tableHeader: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   tableCell: {
     fontSize: 16,
+    justifyContent: "space-between",
+    borderWidth: "1px",
+    borderColor: "red",
   },
   chestLogoContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   chestLogoImage: {
     width: 120,
