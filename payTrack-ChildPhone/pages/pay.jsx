@@ -1,105 +1,119 @@
-import React, { useState, useContext } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert ,KeyboardAvoidingView} from 'react-native';
-import { doc,  setDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { db } from '../config/Firebase.Config';
+import React, { useState, useContext } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  KeyboardAvoidingView,
+} from "react-native";
+import {
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { db } from "../config/Firebase.Config";
 import { UserContext } from "../context/UserContext";
 
 const Pay = () => {
   const { user } = useContext(UserContext);
   const userContext = useContext(UserContext);
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
 
-  const handlePay =async () => {
-    const amt = 10; // remove it when css issue is fixed
-
+  const handlePay = async () => {
     let account = {};
-     const q =  query(collection(db, "children"), where("uid", "==", user.user.uid));
-     const querySnapshot = await getDocs(q);
-     querySnapshot.forEach((doc) => {
+    const q = query(
+      collection(db, "children"),
+      where("uid", "==", user.user.uid)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
       account = doc.data();
-     });
-    if (account?.chq && parseInt(account.chq) >= amt) {
+    });
+    if (account?.chq && parseInt(account.chq) >= amount) {
       const dateTime = new Date().toISOString();
       const userId = userContext.user.user.uid;
       setDoc(doc(db, "transactions", `${userId}_${dateTime}`), {
-        userId, 
-        amount: amt, // change to amount instead of 10
+        userId,
+        amount: amount,
         type: "debit",
         dateTime,
-        place: "Wallmart"
+        place: "Wallmart",
       });
-      account.chq = (parseInt(account.chq) - amt).toString();
-      setDoc(doc(db, "children", account.uid),account);
+      account.chq = (parseInt(account.chq) - amount).toString();
+      setDoc(doc(db, "children", account.uid), account);
     } else {
       Alert.alert("Not sufficient balance for this transaction.");
     }
   };
 
   return (
-    <KeyboardAwareScrollView style={{height:"100%"}}>
-    <View style={styles.container} >
-     
-      <View style={styles.scanBox} />
-      <Text style={styles.amountText}>Amount</Text>
+    <KeyboardAwareScrollView style={{ height: "100%" }}>
+      <View style={styles.container}>
+        <View style={styles.scanBox} />
+        <Text style={styles.amountText}>Amount</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter the amount"
-        placeholderTextColor="#888"
-        value={amount}
-        onChangeText={setAmount}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter the amount"
+          placeholderTextColor="#888"
+          value={amount}
+          onChangeText={setAmount}
+        />
 
-      <TouchableOpacity style={styles.payButton} onPress={handlePay}>
-        <Text style={styles.payButtonText}>Pay</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.payButton} onPress={handlePay}>
+          <Text style={styles.payButtonText}>Pay</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height:"100%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
   },
   scanBox: {
     width: 200,
     height: 200,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: "black",
     marginBottom: 16,
-    marginTop:100,
+    marginTop: 100,
   },
   amountText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
     borderWidth: 1,
-    borderColor: '#888',
+    borderColor: "#888",
     borderRadius: 5,
     marginBottom: 16,
     paddingHorizontal: 10,
   },
   payButton: {
-    width: '50%',
+    width: "50%",
     height: 40,
-    backgroundColor: '#65a9e8',
+    backgroundColor: "#65a9e8",
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   payButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
