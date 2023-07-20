@@ -1,15 +1,12 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
 
 const Profile = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Profile</Text>
 
-      <Image
-        source={require('../images/Ben.jpg')}
-        style={styles.image}
-      />
+      <Image source={require("../images/Ben.jpg")} style={styles.image} />
 
       <View style={styles.content}>
         <View style={styles.row}>
@@ -49,13 +46,13 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 16,
   },
   header: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
   },
   image: {
@@ -64,16 +61,16 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   content: {
-    width: '100%',
+    width: "100%",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 16,
   },
   label: {
     flex: 1,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   value: {
     flex: 1,
@@ -81,11 +78,7 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
 export default Profile;
-
-
 
 // const Profile = () => {
 //   const [name, setName] = useState('');
