@@ -1,52 +1,51 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeTabs from '../navigation/HomeTabs';
-import Notification from '../pages/Notifications';
-import Profile from '../pages/Profile';
+import React from "react";
+import { StyleSheet } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeTabs from "./HomeTabs.jsx";
+import Notification from "../pages/Notifications";
+import Profile from "../pages/Profile";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import { NavigationContainer } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: "#0066FF",
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: "#5CD306",
+      }}
+    >
+      <Tab.Screen
+        name="HomeTabs"
+        component={HomeTabs}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name="home" size={25} color={color} />
+          ),
         }}
-      >
-        <Tab.Screen
-          name="Home"
-          component={HomeTabs}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name="home" size={25} color={color} />
-            ),
-          }}
-        />
+      />
 
-        <Tab.Screen
-          name="Notification"
-          component={Notification}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name="bell" size={25} color={color} />
-            ),
-          }}
-        />
+      <Tab.Screen
+        name="Notification"
+        component={Notification}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name="bell" size={25} color={color} />
+          ),
+        }}
+      />
 
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Icon name="Profile" size={25} color={color} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon name="user-circle" size={25} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 };
 
