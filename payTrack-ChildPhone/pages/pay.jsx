@@ -49,6 +49,7 @@ const Pay = ({ navigation }) => {
       });
       account.chq = (parseInt(account.chq) - amount).toString();
       setDoc(doc(db, "children", account.uid), account);
+      navigation.navigate("Home");
     } else {
       Alert.alert("Not sufficient balance for this transaction.");
     }
@@ -57,7 +58,7 @@ const Pay = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView style={{ height: "100%" }}>
       <View style={styles.container}>
-        <View style={styles.scanBox} />
+        <HalfCreditCardTop />
         <Text style={styles.amountText}>Amount</Text>
 
         <TextInput
