@@ -19,8 +19,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../config/Firebase.Config";
 import { UserContext } from "../context/UserContext";
+import HalfCreditCardTop from "../components/HalfCreditCardTop.jsx";
 
-const Pay = () => {
+const Pay = ({ navigation }) => {
   const { user } = useContext(UserContext);
   const userContext = useContext(UserContext);
   const [amount, setAmount] = useState("");
@@ -35,6 +36,7 @@ const Pay = () => {
     querySnapshot.forEach((doc) => {
       account = doc.data();
     });
+
     if (account?.chq && parseInt(account.chq) >= amount) {
       const dateTime = new Date().toISOString();
       const userId = userContext.user.user.uid;
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 100,
   },
   amountText: {
+    marginTop: 300,
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
   payButton: {
     width: "50%",
     height: 40,
-    backgroundColor: "#65a9e8",
+    backgroundColor: "#5CD306",
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
