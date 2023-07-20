@@ -15,8 +15,14 @@ export default function App() {
         <Stack.Navigator
           initialRouteName={userContext?.user ? "Home" : "Login"}
         >
-          <Stack.Screen name="Home">{() => <Tabs />}</Stack.Screen>
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen options={{ headerShown: false }} name="Tabs">
+            {() => <Tabs />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </UserProvider>
