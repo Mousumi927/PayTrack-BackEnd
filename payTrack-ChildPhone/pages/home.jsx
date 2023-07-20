@@ -30,7 +30,6 @@ const Home = ({ navigation }) => {
       alert("Error " + error);
     }
   };
-
   const renderContent = () => {
     if (activeTab === "recentTransactions") {
       return (
@@ -96,7 +95,6 @@ const Home = ({ navigation }) => {
         Alert.alert("Error fetching data from Firestore:", error);
       });
   };
-
   useEffect(() => {
     fetchRecentTransaction();
     fetchCurrentBalance();
@@ -104,16 +102,18 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image style={styles.logo} source={require("../assets/Logo.png")} />
+
       <View style={styles.balanceContainer}>
         <Text style={styles.currentBalance}>
-          Current Balance:{currentBalance}
+          Current Balance : ${currentBalance}
         </Text>
       </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Request")}
+          onPress={() => navigation.navigate("Request Money")}
         >
           <Text style={styles.buttonText}>Request</Text>
         </TouchableOpacity>
@@ -131,23 +131,21 @@ const Home = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>History</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleLogout()}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={[
-            styles.tab,
-            activeTab === "recentTransactions" && styles.activeTab,
-          ]}
+          style={
+            activeTab === "recentTransactions"
+              ? styles.activeTabLeft
+              : styles.tab
+          }
           onPress={() => handleTabPress("recentTransactions")}
         >
           <Text style={styles.tabText}>Recent Transactions</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.tab, activeTab === "chest" && styles.activeTab]}
+          style={activeTab === "chest" ? styles.activeTabRight : styles.tab}
           onPress={() => handleTabPress("chest")}
         >
           <Text style={styles.tabText}>Chest</Text>
@@ -158,14 +156,15 @@ const Home = ({ navigation }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
+    backgroundColor: "white",
   },
+  logo: { width: 150, height: 150, resizeMode: "contain", marginBottom: 20 },
   balanceContainer: {
     marginBottom: 20,
   },
@@ -180,7 +179,7 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "blue",
+    backgroundColor: "#5CD306",
     borderRadius: 5,
     marginRight: 10,
   },
@@ -190,19 +189,30 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: "row",
-    marginBottom: 20,
-  },
-  activeTab: {
-    backgroundColor: "purple",
-  },
-  inActiveTab: {
-    backgroundColor: "lightpurple",
+    justifyContent: "space-between",
+    backgroundColor: "green",
+    borderRadius: 25,
+    marginBottom: 10,
+    width: "80%",
   },
   tab: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
-    marginRight: 10,
+  },
+  activeTabLeft: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#5CD306",
+    borderTopLeftRadius: 25,
+    borderBottomLeftRadius: 25,
+  },
+  activeTabRight: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#5CD306",
+    borderTopRightRadius: 25,
+    borderBottomRightRadius: 25,
   },
   tabText: {
     color: "white",
@@ -210,30 +220,33 @@ const styles = StyleSheet.create({
   },
   recentTransactionsContainer: {
     alignItems: "center",
-    width: "100%",
+    height: 150,
   },
   transactionTable: {
     borderWidth: 1,
     borderColor: "#888",
     borderRadius: 5,
     marginTop: 10,
-    width: "100%",
   },
   tableRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 8,
-    paddingHorizontal: 20, // Increase the paddingHorizontal value for more spacing
   },
   tableHeader: {
+    width: "100%",
     fontSize: 16,
+    width: 120,
     fontWeight: "bold",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    textAlign: "center",
   },
   tableCell: {
     fontSize: 16,
-    justifyContent: "space-between",
-    borderWidth: "1px",
-    borderColor: "red",
+    textAlign: "center",
+    width: 120,
+    borderWidth: 1,
+    paddingHorizontal: 10,
   },
   chestLogoContainer: {
     alignItems: "center",
@@ -245,6 +258,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
