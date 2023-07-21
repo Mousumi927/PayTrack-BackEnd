@@ -96,9 +96,11 @@ const Home = ({ navigation }) => {
       });
   };
   useEffect(() => {
+    console.log("hello");
+
     fetchRecentTransaction();
     fetchCurrentBalance();
-  }, [navigationState, recentTransactions, currentBalance]);
+  }, [navigationState]);
 
   return (
     <View style={styles.container}>
