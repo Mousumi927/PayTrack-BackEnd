@@ -1,45 +1,90 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { UserContext } from "../context/UserContext";
+import { collection, getDocs, where, query } from "firebase/firestore";
+import { db } from "../config/Firebase.Config";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
+  const [profile, setProfile] = useState();
+  const handleLogout = async () => {
+    try {
+      setUser(null);
+      navigation.navigate("Login");
+    } catch (error) {
+      alert("Error " + error);
+    }
+  };
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const q = query(
+        collection(db, "children"),
+        where("uid", "==", user.user.uid)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setProfile(doc.data());
+      });
+    };
+    fetchProfile();
+  }, [user]);
+  console.log("user", user, profile);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Profile</Text>
+    profile && (
+      <View style={styles.container}>
+        <Text style={styles.header}>Profile</Text>
 
-      <Image source={require("../images/Ben.jpg")} style={styles.image} />
+        <Image
+          source={
+            profile.gender === "Male"
+              ? require("../images/Ben.jpg")
+              : require("../images/Gwen.jpg")
+          }
+          style={styles.image}
+        />
 
-      <View style={styles.content}>
-        <View style={styles.row}>
-          <Text style={styles.label}>Name:</Text>
-          <Text style={styles.value}>Ben Smith</Text>
-        </View>
+        <View style={styles.content}>
+          <View style={styles.row}>
+            <Text style={styles.label}>Name:</Text>
+            <Text style={styles.value}>{profile.name}</Text>
+          </View>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Date of Birth:</Text>
-          <Text style={styles.value}>20.12.2012</Text>
-        </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Date of Birth:</Text>
+            <Text style={styles.value}>20.12.2012</Text>
+          </View>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Address:</Text>
-          <Text style={styles.value}>123 ABC Road, SE, Calgary, AB</Text>
-        </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Address:</Text>
+            <Text style={styles.value}>123 ABC Road, SE, Calgary, AB</Text>
+          </View>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>School:</Text>
-          <Text style={styles.value}>St. Joseph School</Text>
-        </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>School:</Text>
+            <Text style={styles.value}>{profile.school}</Text>
+          </View>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Current Level:</Text>
-          <Text style={styles.value}>-</Text>
-        </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Current Level:</Text>
+            <Text style={styles.value}>-</Text>
+          </View>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Total Savings:</Text>
-          <Text style={styles.value}>$560.89</Text>
+          <View style={styles.row}>
+            <Text style={styles.label}>Total Savings:</Text>
+            <Text style={styles.value}>$560.89</Text>
+          </View>
+          <View style={styles.logoutButton}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleLogout()}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    )
   );
 };
 
@@ -75,6 +120,25 @@ const styles = StyleSheet.create({
   value: {
     flex: 1,
     fontSize: 16,
+  },
+  button: {
+    width: "50%",
+    height: 40,
+    backgroundColor: "#5CD306",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoutButton: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
