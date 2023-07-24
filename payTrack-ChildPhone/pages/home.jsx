@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  FlatList,
 } from "react-native";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../config/Firebase.Config";
@@ -33,14 +34,20 @@ const Home = ({ navigation }) => {
   const renderContent = () => {
     if (activeTab === "recentTransactions") {
       return (
-        <View style={styles.recentTransactionsContainer}>
-          <View style={styles.transactionTable}>
-            <View style={styles.tableRow}>
+        <View style={styles.transactionsView}>
+           <View style={styles.tableRow}>
               <Text style={styles.tableHeader}>Date</Text>
               <Text style={styles.tableHeader}>Place</Text>
               <Text style={styles.tableHeader}>Amount</Text>
             </View>
-            {recentTransactions.map((item, index) => (
+        <FlatList
+        horizontal={false}
+        data={recentTransactions}
+        renderItem={({item, index})=>(
+          <View style={styles.recentTransactionsContainer}>
+          <View style={styles.transactionTable}>
+           
+            
               <View style={styles.tableRow} key={item.userId + item.dateTime}>
                 <Text style={styles.tableCell}>
                   {new Date(item.dateTime).toISOString().split("T")[0]}
@@ -48,9 +55,14 @@ const Home = ({ navigation }) => {
                 <Text style={styles.tableCell}>{item.place}</Text>
                 <Text style={styles.tableCell}>{item.amount}</Text>
               </View>
-            ))}
+            
           </View>
         </View>
+
+      )}
+        keyExtractor={this.index}
+        /></View>
+       
       );
     }
 
@@ -160,7 +172,7 @@ const Home = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
@@ -222,32 +234,34 @@ const styles = StyleSheet.create({
   },
   recentTransactionsContainer: {
     alignItems: "center",
-    height: 150,
+    // height: 50,
   },
   transactionTable: {
-    borderWidth: 1,
+    borderBottomWidth: 0.5,
     borderColor: "#888",
     borderRadius: 5,
-    marginTop: 10,
+    // marginTop: 10,
   },
   tableRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    height: 35,
+    alignItems: "center"
   },
   tableHeader: {
     width: "100%",
-    fontSize: 16,
+    fontSize: 20,
     width: 120,
     fontWeight: "bold",
-    borderWidth: 1,
+    // borderWidth: 1,
     paddingHorizontal: 10,
     textAlign: "center",
   },
   tableCell: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "center",
     width: 120,
-    borderWidth: 1,
+    // borderWidth: 1,
     paddingHorizontal: 10,
   },
   chestLogoContainer: {
@@ -261,6 +275,23 @@ const styles = StyleSheet.create({
   amount: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  transactionsView: {
+    marginTop: 10,
+    borderWidth: 1,
+    height: 400,
+    borderRadius: 25,
+    width: "98%",
+    marginLeft: "1%",
+    borderColor: "#0066FF",
+    backgroundColor: "white",
+    shadowColor: "black",
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
   },
 });
 
