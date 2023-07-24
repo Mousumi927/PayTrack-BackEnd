@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeTabs from "./HomeTabs.jsx";
 import Notification from "../pages/Notifications";
-import Profile from "../pages/Profile";
+import Profile from "../pages/profile";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 const Tab = createBottomTabNavigator();

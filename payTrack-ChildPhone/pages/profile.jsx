@@ -28,7 +28,7 @@ const Profile = ({ navigation }) => {
     };
     fetchProfile();
   }, [user]);
-  console.log("user", user, profile);
+  console.log("user", profile);
 
   return (
     profile && (
@@ -36,11 +36,7 @@ const Profile = ({ navigation }) => {
         <Text style={styles.header}>Profile</Text>
 
         <Image
-          source={
-            profile.gender === "Male"
-              ? require("../images/Ben.jpg")
-              : require("../images/Gwen.jpg")
-          }
+          source={{uri: profile.profile}}
           style={styles.image}
         />
 
