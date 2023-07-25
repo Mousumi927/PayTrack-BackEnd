@@ -46,7 +46,7 @@ const Pay = ({ navigation }) => {
         type: "debit",
         dateTime,
         place: "Walmart",
-        profile: userContext.user.user.photoURL
+        profile: account.profile,
       });
       account.chq = (parseInt(account.chq) - amount).toString();
       setDoc(doc(db, "children", account.uid), account);
