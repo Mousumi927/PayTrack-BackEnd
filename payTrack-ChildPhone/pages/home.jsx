@@ -35,34 +35,33 @@ const Home = ({ navigation }) => {
     if (activeTab === "recentTransactions") {
       return (
         <View style={styles.transactionsView}>
-           <View style={styles.tableRow}>
-              <Text style={styles.tableHeader}>Date</Text>
-              <Text style={styles.tableHeader}>Place</Text>
-              <Text style={styles.tableHeader}>Amount</Text>
-            </View>
-        <FlatList
-        horizontal={false}
-        data={recentTransactions}
-        renderItem={({item, index})=>(
-          <View style={styles.recentTransactionsContainer}>
-          <View style={styles.transactionTable}>
-           
-            
-              <View style={styles.tableRow} key={item.userId + item.dateTime}>
-                <Text style={styles.tableCell}>
-                  {new Date(item.dateTime).toISOString().split("T")[0]}
-                </Text>
-                <Text style={styles.tableCell}>{item.place}</Text>
-                <Text style={styles.tableCell}>{item.amount}</Text>
-              </View>
-            
+          <View style={styles.tableRow}>
+            <Text style={styles.tableHeader}>Date</Text>
+            <Text style={styles.tableHeader}>Place</Text>
+            <Text style={styles.tableHeader}>Amount</Text>
           </View>
+          <FlatList
+            horizontal={false}
+            data={recentTransactions}
+            renderItem={({ item, index }) => (
+              <View style={styles.recentTransactionsContainer}>
+                <View style={styles.transactionTable}>
+                  <View
+                    style={styles.tableRow}
+                    key={item.userId + item.dateTime}
+                  >
+                    <Text style={styles.tableCell}>
+                      {new Date(item.dateTime).toISOString().split("T")[0]}
+                    </Text>
+                    <Text style={styles.tableCell}>{item.place}</Text>
+                    <Text style={styles.tableCell}>{item.amount}</Text>
+                  </View>
+                </View>
+              </View>
+            )}
+            keyExtractor={this.index}
+          />
         </View>
-
-      )}
-        keyExtractor={this.index}
-        /></View>
-       
       );
     }
 
@@ -173,7 +172,7 @@ const Home = ({ navigation }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 20,
@@ -239,15 +238,15 @@ const styles = StyleSheet.create({
   },
   transactionTable: {
     borderBottomWidth: 0.5,
-    borderColor: "#888",
-    borderRadius: 5,
+    borderColor: "pink",
+    borderRadius: 0.5,
     // marginTop: 10,
   },
   tableRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     height: 35,
-    alignItems: "center"
+    alignItems: "center",
   },
   tableHeader: {
     width: "100%",
@@ -280,18 +279,18 @@ const styles = StyleSheet.create({
   transactionsView: {
     marginTop: 10,
     borderWidth: 1,
-    height: 400,
-    borderRadius: 25,
+    height: 200,
+    borderRadius: 5,
     width: "98%",
     marginLeft: "1%",
-    borderColor: "#0066FF",
+    borderColor: "black",
     backgroundColor: "white",
     shadowColor: "black",
     shadowOffset: {
       height: 0,
       width: 0,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0,
     shadowRadius: 5,
   },
 });
