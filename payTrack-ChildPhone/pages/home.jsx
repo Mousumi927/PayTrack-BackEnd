@@ -7,7 +7,7 @@ import {
   Image,
   Alert,
 } from "react-native";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "../config/Firebase.Config";
 import { UserContext } from "../context/UserContext";
 import { useNavigationState } from "@react-navigation/native";
@@ -81,7 +81,8 @@ const Home = ({ navigation }) => {
   const fetchRecentTransaction = () => {
     const q = query(
       collection(db, "transactions"),
-      where("userId", "==", user.user.uid)
+      where("userId", "==", user.user.uid),
+      orderBy("dateTime", "desc")
     );
     getDocs(q)
       .then((querySnapshot) => {
