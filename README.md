@@ -21,7 +21,7 @@ Miro: Integrated for collaborative design and planning.
 Getting Started
 To run PayTrack locally, follow these steps:
 Clone the Repository: git clone https://github.com/your-username/paytrack.git
-cd parentPhone
+cd childPhone
 
 Install Dependencies:
 npm install
