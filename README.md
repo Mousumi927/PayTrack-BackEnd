@@ -12,8 +12,7 @@ Transaction Tracking: Kids can easily track their transactions, providing a visu
 Savings Goals: Children can set savings goals within the app, creating a sense of purpose and achievement as they work towards financial milestones.
 Rewards System: PayTrack incorporates a rewards system, encouraging children to save by earning incentives for reaching their savings goals.
 
-Technologies Used
-
+Technologies Used =>
 Firebase: Utilized for real-time data synchronization and storage.
 
 Node.js: Employed for server-side scripting and handling backend functionalities.
@@ -22,7 +21,8 @@ React Native: The framework used for building the cross-platform mobile applicat
 
 Miro: Integrated for collaborative design and planning.
 
-Getting Started
+Getting Started=>
+
 To run PayTrack locally, follow these steps:
 Clone the Repository: git clone https://github.com/your-username/paytrack.git
 cd childPhone
